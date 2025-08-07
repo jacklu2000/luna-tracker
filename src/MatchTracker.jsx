@@ -48,7 +48,7 @@ export default function MatchTracker() {
     const header = `对手名称：${opponentName}\n时间,类型,原因\n`;
     const rows = log.map(entry => `${entry.time},${entry.type},${entry.reason}`).join("\n");
     const csvContent = header + rows;
-    const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv" });
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
@@ -56,7 +56,6 @@ export default function MatchTracker() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    URL.revokeObjectURL(url);
   };
 
   return (
@@ -75,9 +74,7 @@ export default function MatchTracker() {
       </div>
 
       <div className="text-lg font-semibold">
-        当前比分：
-        <span className="text-green-600"> Luna {score.luna} </span> - 
-        <span className="text-red-600"> 对手 {score.opponent}</span>
+        当前比分：<span className="text-green-600">Luna {score.luna}</span> - <span className="text-red-600">对手 {score.opponent}</span>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
